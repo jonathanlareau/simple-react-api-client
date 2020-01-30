@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+    // src/App.js
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    import React, { Component } from 'react';
+    import Msgs from './components/msgs';
+    import axios from 'axios';
 
-export default App;
+    class App extends Component {
+      state = {
+        msgs: String
+      }
+      render() {
+        return (
+          <Msgs msgs={this.state.msgs} />
+        );
+      }
+      componentDidMount() {
+        axios.get('http://localhost:4200/api/sayhello/Hello-from-react')
+        .then(response => {
+          console.log(response.data);
+          this.setState({ msgs: response.data.Msg })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      }
+    }
+
+    export default App;
